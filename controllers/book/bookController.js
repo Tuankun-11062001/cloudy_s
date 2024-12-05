@@ -268,6 +268,24 @@ const BookController = {
     }
   },
 
+  updateView: async (req, res) => {
+    const { id } = req.body; // ID của bài hát cần cập nhật view
+
+    try {
+      // Tìm bài hát theo ID và tăng lượt xem
+      const book = await BooksModel.findById(id);
+      if (book) {
+        book.view += 1; // Tăng lượt xem
+        await book.save(); // Lưu lại
+        res.status(200).json({ message: "View updated successfully" });
+      } else {
+        res.status(404).json({ message: "book not found" });
+      }
+    } catch (error) {
+      res.status(500).json({ message: "Server error" });
+    }
+  },
+
   deleteBook: async (req, res) => {
     try {
       const id = req.params.id;

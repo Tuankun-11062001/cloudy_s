@@ -252,6 +252,24 @@ const BlogsController = {
     }
   },
 
+  updateView: async (req, res) => {
+    const { id } = req.body; // ID của bài hát cần cập nhật view
+
+    try {
+      // Tìm bài hát theo ID và tăng lượt xem
+      const blogs = await BlogsModel.findById(id);
+      if (blogs) {
+        blogs.view += 1; // Tăng lượt xem
+        await blogs.save(); // Lưu lại
+        res.status(200).json({ message: "View updated successfully" });
+      } else {
+        res.status(404).json({ message: "blog not found" });
+      }
+    } catch (error) {
+      res.status(500).json({ message: "Server error" });
+    }
+  },
+
   deleteBlog: async (req, res) => {
     try {
       const id = req.params.id;

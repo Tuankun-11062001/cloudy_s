@@ -241,6 +241,7 @@ const LyricsController = {
     try {
       const newBody = req.body;
       const idLyrics = req.params.id;
+      console.log(req.body);
 
       const updateLyrics = await LyricsModel.findByIdAndUpdate(
         idLyrics,
@@ -391,6 +392,24 @@ const LyricsController = {
         error,
         status: 500,
       });
+    }
+  },
+
+  updateView: async (req, res) => {
+    const { id } = req.body; // ID của bài hát cần cập nhật view
+
+    try {
+      // Tìm bài hát theo ID và tăng lượt xem
+      const lyrics = await LyricsModel.findById(id);
+      if (lyrics) {
+        lyrics.view += 1; // Tăng lượt xem
+        await lyrics.save(); // Lưu lại
+        res.status(200).json({ message: "View updated successfully" });
+      } else {
+        res.status(404).json({ message: "Song not found" });
+      }
+    } catch (error) {
+      res.status(500).json({ message: "Server error" });
     }
   },
 

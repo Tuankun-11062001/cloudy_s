@@ -8,6 +8,7 @@ bookRouter.get("/recommend/:id", bookController.getBookByCategory);
 bookRouter.get("/:id", bookController.findBook);
 // bookRouter.get("/country/:id", bookController.getCountryWithCategories);
 bookRouter.post("/create", bookController.createBook);
+bookRouter.post("/updateView", bookController.updateView);
 bookRouter.put("/:id", bookController.updateBook);
 bookRouter.delete("/:id", bookController.deleteBook);
 bookRouter.post("/:id/cloudy", bookController.cloudyBook);

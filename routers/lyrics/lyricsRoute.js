@@ -35,6 +35,7 @@ lyricsRouter.get("/:id", LyricsController.findLyrics);
 lyricsRouter.get("/category/:id", LyricsController.getCategoryWithCountry);
 lyricsRouter.get("/country/:id", LyricsController.getCountryWithCategories);
 lyricsRouter.post("/create", LyricsController.createLyrics);
+lyricsRouter.post("/updateView", LyricsController.updateView);
 lyricsRouter.put("/:id", LyricsController.updateLyrics);
 lyricsRouter.put("/translate/:id", LyricsController.updateUserTranslate);
 lyricsRouter.delete("/:id", LyricsController.deleteLyrics);
