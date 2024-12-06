@@ -19,6 +19,7 @@ lyricsRouter.delete("/album/:id", lyricsAlbumController.deleteAlbum);
 // singer
 
 lyricsRouter.get("/singer", lyricsSingerCountroller.getAllSinger);
+lyricsRouter.get("/singerTop", lyricsSingerCountroller.getTopSinger);
 lyricsRouter.get(
   "/singerByCountry",
   lyricsSingerCountroller.getSingerByCountry

@@ -1,5 +1,4 @@
 const LyricsSingerModel = require("../../models/lyrics/lyricsSingerModel");
-const LyricsCountryModel = require("../../models/lyrics/lyricsCountryModel");
 
 const LyricsSinger = require("../../models/lyrics/lyricsSingerModel");
 const LyricsSingerController = {
@@ -9,6 +8,27 @@ const LyricsSingerController = {
 
       res.status(200).send({
         message: "Get all singer success",
+        status: 200,
+        data: singers,
+      });
+    } catch (error) {
+      res.status(500).send({
+        message: "Server Error",
+        error,
+        status: 500,
+      });
+    }
+  },
+
+  getTopSinger: async (req, res) => {
+    try {
+      const singers = await LyricsSinger.find()
+        .sort({ createdAt: -1 }) // Sắp xếp giảm dần theo thời gian tạo
+        .limit(10) // Giới hạn số lượng bài hát trả về là 10
+        .populate("singerCountry");
+
+      res.status(200).send({
+        message: "Get Top singer success",
         status: 200,
         data: singers,
       });
