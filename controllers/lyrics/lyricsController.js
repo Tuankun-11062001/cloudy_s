@@ -40,15 +40,35 @@ const LyricsController = {
         queryConditions.title = { $regex: req.query.title, $options: "i" }; // Tìm kiếm không phân biệt chữ hoa chữ thường
       }
 
+      // Lấy số trang và số lượng sản phẩm mỗi trang từ query
+      const page = parseInt(req.query.page) || 1; // Default là trang 1
+      const limit = parseInt(req.query.limit) || 10; // Default là 10 sản phẩm mỗi trang
+      // Tính số bản ghi cần bỏ qua (skip) và giới hạn số bản ghi (limit)
+      const skip = (page - 1) * limit;
+
+      // Truy vấn tổng số sản phẩm để tính tổng số trang
+      const totalLyrics = await LyricsModel.countDocuments(queryConditions);
+
       const lyrics = await LyricsModel.find(queryConditions)
+        .skip(skip)
+        .limit(limit)
         .populate("singer")
         .populate("category")
         .populate("country");
+
+      // Tính tổng số trang
+      const totalPages = Math.ceil(totalLyrics / limit);
 
       res.status(200).send({
         message: "Get all lyrics success",
         status: 200,
         data: lyrics,
+        pagination: {
+          page: page,
+          limit: limit,
+          totalLyrics: totalLyrics,
+          totalPages: totalPages,
+        },
       });
     } catch (error) {
       res.status(500).send({
