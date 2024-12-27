@@ -31,6 +31,7 @@ lyricsRouter.delete("/singer/:id", lyricsSingerCountroller.deleteSinger);
 // lyrics
 
 lyricsRouter.get("/", LyricsController.getAllLyrics);
+lyricsRouter.get("/filter", LyricsController.getFillterLyrics);
 lyricsRouter.get("/topSong", LyricsController.getTopSongLyrics);
 lyricsRouter.get("/:id", LyricsController.findLyrics);
 lyricsRouter.get("/category/:id", LyricsController.getCategoryWithCountry);

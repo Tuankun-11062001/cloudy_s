@@ -40,6 +40,66 @@ const LyricsController = {
         queryConditions.title = { $regex: req.query.title, $options: "i" }; // Tìm kiếm không phân biệt chữ hoa chữ thường
       }
 
+      const lyrics = await LyricsModel.find(queryConditions)
+
+        .populate("singer")
+        .populate("category")
+        .populate("country");
+
+      res.status(200).send({
+        message: "Get all lyrics success",
+        status: 200,
+        data: lyrics,
+      });
+    } catch (error) {
+      res.status(500).send({
+        message: "Server Error",
+        error,
+        status: 500,
+      });
+    }
+  },
+
+  getFillterLyrics: async (req, res) => {
+    try {
+      // Tạo một đối tượng để lưu các điều kiện truy vấn
+      const queryConditions = {};
+
+      // Lọc theo category
+      if (req.query.category) {
+        queryConditions.category = req.query.category;
+      }
+
+      // Lọc theo country
+      if (req.query.country) {
+        queryConditions.country = req.query.country;
+      }
+
+      // Lọc theo singer
+      if (req.query.singer) {
+        queryConditions.singer = req.query.singer;
+      }
+
+      // Lọc theo trending
+      if (req.query.trending) {
+        queryConditions.trending = req.query.trending === "true"; // Chuyển đổi chuỗi sang boolean
+      }
+
+      // Lọc theo slider
+      if (req.query.slider) {
+        queryConditions.slider = req.query.slider === "true";
+      }
+
+      // Lọc theo public
+      if (req.query.public) {
+        queryConditions.public = req.query.public === "true";
+      }
+
+      // Lọc theo title (tên bài hát)
+      if (req.query.title) {
+        queryConditions.title = { $regex: req.query.title, $options: "i" }; // Tìm kiếm không phân biệt chữ hoa chữ thường
+      }
+
       // Lấy số trang và số lượng sản phẩm mỗi trang từ query
       const page = parseInt(req.query.page) || 1; // Default là trang 1
       const limit = parseInt(req.query.limit) || 10; // Default là 10 sản phẩm mỗi trang
