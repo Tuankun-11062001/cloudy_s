@@ -110,6 +110,7 @@ const LyricsController = {
       const totalLyrics = await LyricsModel.countDocuments(queryConditions);
 
       const lyrics = await LyricsModel.find(queryConditions)
+        .sort({ createdAt: -1 })
         .skip(skip)
         .limit(limit)
         .populate("singer")
